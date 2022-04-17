@@ -35,6 +35,7 @@
     "eslint": "^8.13.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
@@ -58,10 +59,17 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
+    "@apollo/client": "^3.5.10",
     "cookie-parser": "^1.4.6",
+    "cross-fetch": "^3.1.5",
     "express": "^4.17.3",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.8.0",
+    "mysql": "^2.18.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.3.6"
   }
 }
