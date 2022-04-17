@@ -5,8 +5,10 @@ import routes from './views/routes';
 
 function App() {
   return (
-    <div>
-      <h1>Hello TeaMail</h1>
+    <>
+      <header className="flex justify-center items-center">
+        <h1 className="text-xl font-bold">Hello TeaMail</h1>
+      </header>
 
       <div>
         <Routes>
@@ -15,7 +17,7 @@ function App() {
           ))}
         </Routes>
       </div>
-    </div>
+    </>
   );
 }
 
