@@ -30,6 +30,10 @@ function TeaCatalogView() {
 }
 
 const TeaCatalogList = styled.ul`
+  padding: 100px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   list-style: none;
 `;
 
