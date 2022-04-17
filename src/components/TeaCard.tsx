@@ -9,16 +9,23 @@ interface ITeaCardProps {
   id: number;
   title: string;
   price: number;
+  onTeaDelete(id: number): void;
 }
 
 function TeaCard(props: ITeaCardProps) {
-  const { id, title, price } = props;
+  const { id, title, price, onTeaDelete } = props;
+
+  const onDeleteTeaButtonClick = React.useCallback(() => onTeaDelete(id), [id, onTeaDelete]);
 
   return (
     <TeaCardContainer>
       <img width="32px" src={MugHotSolid} alt="mug hot" />
       <TeaCardTitle className="m-auto">{title}</TeaCardTitle>
       <TeaCardPrice>{price}</TeaCardPrice>
+
+      <DeleteTeaButton type="button" onClick={onDeleteTeaButtonClick}>
+        Delete
+      </DeleteTeaButton>
     </TeaCardContainer>
   );
 }
@@ -42,5 +49,7 @@ const TeaCardTitle = styled.h4`
 const TeaCardPrice = styled.h5`
   font-size: 0.85rem;
 `;
+
+const DeleteTeaButton = styled.button``;
 
 export default TeaCard;

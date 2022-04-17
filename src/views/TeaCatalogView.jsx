@@ -6,9 +6,17 @@ import { useQuery } from '@apollo/client';
 import { GET_TEA } from '~/graphql/client/queries/tea-queries';
 
 import TeaCard from '~/components/TeaCard';
+import useDeleteTeaMutation from '~/hooks/tea/useDeleteTeaMutation';
 
 function TeaCatalogView() {
   const { data, loading } = useQuery(GET_TEA);
+
+  const { deleteTeaMutation } = useDeleteTeaMutation();
+
+  const onTeaDelete = React.useCallback(
+    (id) => deleteTeaMutation({ variables: { id } }),
+    [deleteTeaMutation],
+  );
 
   if (loading) {
     return <div>loading...</div>;
@@ -21,7 +29,12 @@ function TeaCatalogView() {
       <TeaCatalogList>
         {data.tea.map((teaItem) => (
           <li key={teaItem.id}>
-            <TeaCard id={teaItem.id} title={teaItem.title} price={teaItem.price} />
+            <TeaCard
+              id={teaItem.id}
+              title={teaItem.title}
+              price={teaItem.price}
+              onTeaDelete={onTeaDelete}
+            />
           </li>
         ))}
       </TeaCatalogList>

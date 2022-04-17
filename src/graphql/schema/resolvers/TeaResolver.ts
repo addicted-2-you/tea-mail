@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 
-import { Arg, Query, Resolver } from 'type-graphql';
+import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 
 import { Tea } from '~/graphql/schema/entities/Tea';
 
@@ -14,5 +14,12 @@ export class TeaResolver {
     }
 
     return Tea.find();
+  }
+
+  @Mutation(() => Tea)
+  async deleteTea(@Arg('id', { nullable: true }) id: number) {
+    const tea = await Tea.findOneBy({ id });
+    tea?.remove();
+    return tea;
   }
 }
