@@ -1,5 +1,7 @@
-import { useQuery } from '@apollo/client';
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react';
+import styled from 'styled-components';
+import { useQuery } from '@apollo/client';
 
 import { GET_TEA } from '~/graphql/client/queries/tea-queries';
 
@@ -16,15 +18,19 @@ function TeaCatalogView() {
     <div>
       <h2>Tea Catalog</h2>
 
-      <ul>
+      <TeaCatalogList>
         {data.tea.map((teaItem) => (
           <li key={teaItem.id}>
             <TeaCard id={teaItem.id} title={teaItem.title} price={teaItem.price} />
           </li>
         ))}
-      </ul>
+      </TeaCatalogList>
     </div>
   );
 }
+
+const TeaCatalogList = styled.ul`
+  list-style: none;
+`;
 
 export default TeaCatalogView;
