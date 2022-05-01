@@ -53,6 +53,10 @@ create table tea_mail.tea (
 );
 
 insert into tea_mail.tea(id, title, price, units, teatype) values(1, "Молочный Улун", 10, 1, 5);
+insert into tea_mail.tea(id, title, price, units, teatype) values(2, "Сливчоный Виноградный Улун", 25, 1, 5);
+insert into tea_mail.tea(id, title, price, units, teatype) values(3, "Древний Улун", 100, 1, 5);
+insert into tea_mail.tea(id, title, price, units, teatype) values(4, "Заяц Гун Тин", 10, 1, 2);
+insert into tea_mail.tea(id, title, price, units, teatype) values(5, "Гу Тин в кирпиче (из почечного сырья)", 10, 1, 2);
 
 ##
 
