@@ -6,6 +6,10 @@ export const GET_TEA = gql`
       id
       title
       price
+      portions {
+        id
+        title
+      }
     }
   }
 `;

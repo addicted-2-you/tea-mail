@@ -2,6 +2,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// types
+import { ITeaPortion } from '~/types/ITeaPortion';
+import { ICartItem } from '~/types/ICartItem';
+
 // icons
 import MugHotSolid from '~/assets/img/mug-hot-solid.svg';
 
@@ -9,19 +13,52 @@ interface ITeaCardProps {
   id: number;
   title: string;
   price: number;
-  onTeaDelete(id: number): void;
+  portions: ITeaPortion[];
+  addTeaToCart(newCartItem: ICartItem): void;
+  deleteTea(id: number): void;
 }
 
 function TeaCard(props: ITeaCardProps) {
-  const { id, title, price, onTeaDelete } = props;
+  const { id, title, price, portions, addTeaToCart, deleteTea } = props;
 
-  const onDeleteTeaButtonClick = React.useCallback(() => onTeaDelete(id), [id, onTeaDelete]);
+  const [teaPortion, setTeaPortion] = React.useState<ITeaPortion>(portions[0]);
+
+  const onTeaPortionChange = (portionId: number) => {
+    setTeaPortion(portions.find((portion) => portion.id === portionId) as ITeaPortion);
+  };
+
+  const onAddTeaToCartButtonClick = () =>
+    addTeaToCart({
+      tea: { id, title, price, teaType: { id: -1, title: '' }, flavors: [] },
+      teaPortion,
+      count: 1,
+    });
+
+  const onDeleteTeaButtonClick = () => deleteTea(id);
 
   return (
     <TeaCardContainer>
       <img width="32px" src={MugHotSolid} alt="mug hot" />
       <TeaCardTitle className="m-auto">{title}</TeaCardTitle>
       <TeaCardPrice>{price}</TeaCardPrice>
+
+      <label htmlFor={`tea-${id}-portions-select`}>
+        <select
+          id={`tea-${id}-portions-select`}
+          value={teaPortion?.id}
+          onChange={(e) => onTeaPortionChange(+e.target.value)}
+        >
+          {portions.map((portion) => (
+            <option key={portion.id} value={portion.id}>
+              {portion.title}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <AddTeaToCartButton type="button" onClick={onAddTeaToCartButtonClick} disabled={!teaPortion}>
+        Add To Cart
+      </AddTeaToCartButton>
 
       <DeleteTeaButton type="button" onClick={onDeleteTeaButtonClick}>
         Delete
@@ -49,6 +86,8 @@ const TeaCardTitle = styled.h4`
 const TeaCardPrice = styled.h5`
   font-size: 0.85rem;
 `;
+
+const AddTeaToCartButton = styled.button``;
 
 const DeleteTeaButton = styled.button``;
 
