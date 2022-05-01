@@ -19,9 +19,16 @@ import App from '~/App';
 
 // graphql
 import { client } from '~/graphql/client/config';
-import { Tea } from '~/graphql/schema/entities/Tea';
-import { TeaResolver } from '~/graphql/schema/resolvers/TeaResolver';
 
+// entities
+import { Tea } from '~/graphql/schema/entities/Tea';
+import { Portion } from '~/graphql/schema/entities/Portion';
+
+// resolvers
+import { TeaResolver } from '~/graphql/schema/resolvers/TeaResolver';
+import { PortionResolver } from '~/graphql/schema/resolvers/PortionResolver';
+
+// utils
 import { readFile } from '~/utils/server-utils';
 
 const app = express();
@@ -52,7 +59,7 @@ async function runApp() {
     username: 'root',
     password: 'root',
     database: 'tea_mail',
-    entities: [Tea],
+    entities: [Tea, Portion],
     // logging: true,
     synchronize: true,
   });
@@ -62,7 +69,7 @@ async function runApp() {
     graphqlHTTP({
       graphiql: true,
       schema: await buildSchema({
-        resolvers: [TeaResolver],
+        resolvers: [TeaResolver, PortionResolver],
       }),
     }),
   );

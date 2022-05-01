@@ -1,5 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, JoinTable, ManyToMany } from 'typeorm';
 import { Field, Int, ObjectType } from 'type-graphql';
+
+import { Portion } from './Portion';
 
 @ObjectType()
 @Entity('tea')
@@ -18,9 +20,20 @@ export class Tea extends BaseEntity {
 
   @Field(() => Number)
   @Column('int')
-  units: number;
+  teaType: number;
 
-  @Field(() => Number)
-  @Column('int')
-  teatype: number;
+  @Field(() => [Portion])
+  @ManyToMany(() => Portion)
+  @JoinTable({
+    name: 'm2m_tea_portions',
+    joinColumn: {
+      name: 'teaId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'portionId',
+      referencedColumnName: 'id',
+    },
+  })
+  portions: Portion[];
 }

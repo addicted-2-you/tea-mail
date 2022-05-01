@@ -7,13 +7,13 @@ import { Tea } from '~/graphql/schema/entities/Tea';
 @Resolver()
 export class TeaResolver {
   @Query(() => [Tea])
-  async tea(@Arg('id', { nullable: true }) id?: string) {
+  async tea(@Arg('id', { nullable: true }) id?: number) {
     if (id) {
-      const tea = await Tea.findOne(id);
+      const tea = await Tea.findOne({ where: { id }, relations: ['portions'] });
       return [tea];
     }
 
-    return Tea.find();
+    return Tea.find({ relations: ['portions'] });
   }
 
   @Mutation(() => Tea)
