@@ -7,6 +7,8 @@ import { client } from './graphql/client/config';
 
 import App from './App';
 
+import './index.scss';
+
 ReactDOM.hydrate(
   <BrowserRouter>
     <ApolloProvider client={client}>
