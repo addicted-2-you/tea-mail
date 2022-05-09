@@ -19,16 +19,16 @@ create table tea_mail.chats (
   deletedat datetime default null
 );
 
-insert into tea_mail.chats (id, title) values (0, "тест");
+insert into tea_mail.chats (id, title) values (1, "тест");
 
-drop table if exists tea_mail.users_chats;
-create table tea_mail.users_chats (
+drop table if exists tea_mail.m2m_users_chats;
+create table tea_mail.m2m_users_chats (
   chatid int not null,
   userid int not null
 );
 
-insert into tea_mail.users_chats (chatid, userid) values (0, 0); -- 0 is admin
-insert into tea_mail.users_chats (chatid, userid) values (0, -1); -- -1 is test user
+insert into tea_mail.m2m_users_chats (chatid, userid) values (1, 0); -- 0 is admin
+insert into tea_mail.m2m_users_chats (chatid, userid) values (1, -1); -- -1 is test user
 
 drop table if exists tea_mail.messages;
 create table tea_mail.messages (
@@ -45,4 +45,5 @@ create table tea_mail.messages (
   constraint message_complete check (messagetext is not null or url is not null)
 );
 
-
+insert into tea_mail.messages (messagetext, senderid, chatid) values ("привет", 0, 1);
+insert into tea_mail.messages (messagetext, senderid, chatid) values ("привет", -1, 1);
