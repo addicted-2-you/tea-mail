@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+
 import React from 'react';
 import styled from 'styled-components';
 import { useQuery, useReactiveVar } from '@apollo/client';
 
+// types
 import { ICartItem } from '~/types/ICartItem';
 
+// graphql
 import { GET_TEA } from '~/graphql/client/queries/tea-queries';
 import { cart } from '~/graphql/client/reactive-vars';
 
+// components
 import TeaCard from '~/components/TeaCard';
+
+// hooks
 import useDeleteTeaMutation from '~/hooks/tea/useDeleteTeaMutation';
 
+// utils
 import { cartItemComparer } from '~/utils/cart-utils';
 
 function TeaCatalogView() {

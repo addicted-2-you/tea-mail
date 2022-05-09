@@ -4,6 +4,8 @@ import { cart } from './graphql/client/reactive-vars';
 
 import routes from './views/routes';
 
+import ChatWidget from './widgets/chat-widget/ChatWidget';
+
 function App() {
   // read cart from the localStorage
   React.useEffect(() => {
@@ -18,13 +20,13 @@ function App() {
     <div>
       <h1>Hello TeaMail</h1>
 
-      <div>
-        <Routes>
-          {routes.map((route) => (
-            <Route key={route.id} path={route.path} element={route.component} exact={route.exact} />
-          ))}
-        </Routes>
-      </div>
+      <Routes>
+        {routes.map((route) => (
+          <Route key={route.id} path={route.path} element={route.component} exact={route.exact} />
+        ))}
+      </Routes>
+
+      <ChatWidget />
     </div>
   );
 }
