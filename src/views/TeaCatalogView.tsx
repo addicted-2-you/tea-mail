@@ -46,7 +46,6 @@ function TeaCatalogView() {
       }
 
       cart(modifiedCart);
-      console.log(modifiedCart, newCartItem);
 
       window.localStorage.setItem('cart', JSON.stringify(modifiedCart));
     },
