@@ -18,8 +18,6 @@ function App() {
 
   return (
     <div>
-      <h1>Hello TeaMail</h1>
-
       <Routes>
         {routes.map((route) => (
           <Route key={route.id} path={route.path} element={route.component} exact={route.exact} />
