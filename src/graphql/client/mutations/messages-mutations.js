@@ -8,6 +8,7 @@ export const SEND_MESSAGE = gql`
       chatid
       messagetext
       url
+      createdat
     }
   }
 `;

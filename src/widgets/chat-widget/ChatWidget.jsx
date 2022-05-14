@@ -50,7 +50,7 @@ function ChatWidget() {
         console.log(result);
       },
     }),
-    [],
+    [sendMessageMutation],
   );
 
   const usernameFirstLetter = React.useMemo(() => username.charAt(0).toUpperCase(), []);
