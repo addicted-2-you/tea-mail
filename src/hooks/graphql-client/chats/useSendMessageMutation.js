@@ -5,14 +5,24 @@ import { GET_CHAT } from '~/graphql/client/queries/chats-queries';
 
 export default function useSendMessageMutation({ chatId }) {
   const [sendMessageMutation] = useMutation(SEND_MESSAGE, {
-    update(proxy, { data: { sendMessage } }) {
-      const chatsData = proxy.readQuery({ query: GET_CHAT, variables: { chatId } });
-      console.log(chatsData, sendMessage);
-      proxy.write({
-        query: GET_CHAT,
-        variables: { chatId },
+    update(
+      proxy,
+      {
         data: {
-          chats: [...chatsData.chats.messages, sendMessage],
+          sendMessage: [message],
+        },
+      },
+    ) {
+      const {
+        chats: [chat],
+      } = proxy.readQuery({ query: GET_CHAT, variables: { id: chatId } });
+
+      const updatedChat = { ...chat, messages: [...chat.messages, message] };
+      proxy.writeQuery({
+        query: GET_CHAT,
+        variables: { id: chatId },
+        data: {
+          chats: [updatedChat],
         },
       });
     },

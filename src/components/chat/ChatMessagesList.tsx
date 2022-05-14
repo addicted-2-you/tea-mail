@@ -2,8 +2,13 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { useQuery } from '@apollo/client';
 
+// types
 import { IMessage } from '~/types/IMessage';
+
+// graphql
+import { GET_CHAT } from '~/graphql/client/queries/chats-queries';
 
 interface IChatMessagesListProps {
   messages: IMessage[];

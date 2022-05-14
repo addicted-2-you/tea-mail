@@ -2,13 +2,16 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { useQuery } from '@apollo/client';
 
 // components
 import ChatInputEntry from '~/components/ChatInputEntry';
 import { ChatContext } from '~/components/chat/ChatContext';
+import ChatMessagesList from '~/components/chat/ChatMessagesList';
 
-// hooks
+// graphql
 import useSendMessageMutation from '~/hooks/graphql-client/chats/useSendMessageMutation';
+import { GET_CHAT } from '~/graphql/client/queries/chats-queries';
 
 // icons
 import ChatDownIcon from '~/assets/img/chat-down.svg';
@@ -22,6 +25,16 @@ function ChatWidget() {
   const [chatOpen, setChatOpen] = React.useState(false);
 
   const { sendMessageMutation } = useSendMessageMutation({ chatId });
+
+  const {
+    data: chatData = { chats: [null] },
+    loading,
+    error,
+  } = useQuery(GET_CHAT, { variables: { id: 1 } });
+
+  const {
+    chats: [chatWithAdmin],
+  } = chatData;
 
   const chatWidgetContextValue = React.useMemo(
     () => ({
@@ -49,7 +62,11 @@ function ChatWidget() {
   return (
     <ChatContext.Provider value={chatWidgetContextValue}>
       <ChatWidgetWrapper>
-        <MessagesListContainer open={chatOpen} />
+        <MessagesListContainer open={chatOpen}>
+          {chatWithAdmin && chatOpen ? (
+            <ChatMessagesList messages={chatWithAdmin.messages} currentUserId={-1} />
+          ) : null}
+        </MessagesListContainer>
 
         <ChatWidgetControls>
           <ChatWidgetControlsTopRow>
@@ -85,6 +102,9 @@ const ChatWidgetWrapper = styled.div`
 
 const MessagesListContainer = styled.div`
   height: ${({ open }) => (open ? '500px' : '20px')};
+  overflow: hidden auto;
+  display: flex;
+  flex-direction: column-reverse;
   background-color: #2a1a4333;
   transition: height ease-in-out 0.25s;
   border-radius: 10px 10px 0 0;
