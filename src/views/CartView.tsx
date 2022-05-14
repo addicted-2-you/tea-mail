@@ -6,8 +6,6 @@ import { cart } from '~/graphql/client/reactive-vars';
 function CartView() {
   const currentCart = useReactiveVar(cart);
 
-  console.log(currentCart);
-
   return (
     <table>
       <thead>
