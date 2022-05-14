@@ -48,15 +48,13 @@ function AdminChatView() {
   const chatWidgetContextValue = React.useMemo(
     () => ({
       async sendMessage(messageText) {
-        const result = await sendMessageMutation({
+        await sendMessageMutation({
           variables: {
             chatId: pickedChat && pickedChat.id,
             senderId: 0,
             messageText,
           },
         });
-
-        console.log(result);
       },
     }),
     [sendMessageMutation, pickedChat],

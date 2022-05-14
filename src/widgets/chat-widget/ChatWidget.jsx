@@ -39,15 +39,13 @@ function ChatWidget() {
   const chatWidgetContextValue = React.useMemo(
     () => ({
       async sendMessage(messageText) {
-        const result = await sendMessageMutation({
+        await sendMessageMutation({
           variables: {
             chatId,
             senderId,
             messageText,
           },
         });
-
-        console.log(result);
       },
     }),
     [sendMessageMutation],
