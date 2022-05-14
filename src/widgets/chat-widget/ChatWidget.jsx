@@ -5,15 +5,40 @@ import styled from 'styled-components';
 
 // components
 import ChatInputEntry from '~/components/ChatInputEntry';
+import { ChatContext } from '~/components/chat/ChatContext';
+
+// hooks
+import useSendMessageMutation from '~/hooks/graphql-client/chats/useSendMessageMutation';
 
 // icons
 import ChatDownIcon from '~/assets/img/chat-down.svg';
 import ChatUpIcon from '~/assets/img/chat-up.svg';
 
+const chatId = 1;
+const senderId = -1;
 const username = 'akavalenka';
 
 function ChatWidget() {
   const [chatOpen, setChatOpen] = React.useState(false);
+
+  const { sendMessageMutation } = useSendMessageMutation({ chatId });
+
+  const chatWidgetContextValue = React.useMemo(
+    () => ({
+      async sendMessage(messageText) {
+        const result = await sendMessageMutation({
+          variables: {
+            chatId,
+            senderId,
+            messageText,
+          },
+        });
+
+        console.log(result);
+      },
+    }),
+    [],
+  );
 
   const usernameFirstLetter = React.useMemo(() => username.charAt(0).toUpperCase(), []);
 
@@ -22,29 +47,31 @@ function ChatWidget() {
   };
 
   return (
-    <ChatWidgetWrapper>
-      <MessagesListContainer open={chatOpen} />
+    <ChatContext.Provider value={chatWidgetContextValue}>
+      <ChatWidgetWrapper>
+        <MessagesListContainer open={chatOpen} />
 
-      <ChatWidgetControls>
-        <ChatWidgetControlsTopRow>
-          <ToggleChatButton type="button" onClick={onToggleChatButtonClick}>
-            {chatOpen ? (
-              <img src={ChatUpIcon} alt="chat-up-icon" />
-            ) : (
-              <img src={ChatDownIcon} alt="chat-down-icon" />
-            )}
-          </ToggleChatButton>
-        </ChatWidgetControlsTopRow>
+        <ChatWidgetControls>
+          <ChatWidgetControlsTopRow>
+            <ToggleChatButton type="button" onClick={onToggleChatButtonClick}>
+              {chatOpen ? (
+                <img src={ChatUpIcon} alt="chat-up-icon" />
+              ) : (
+                <img src={ChatDownIcon} alt="chat-down-icon" />
+              )}
+            </ToggleChatButton>
+          </ChatWidgetControlsTopRow>
 
-        <ChatWidgetControlsBottomRow>
-          <UserAvatar>{usernameFirstLetter}</UserAvatar>
+          <ChatWidgetControlsBottomRow>
+            <UserAvatar>{usernameFirstLetter}</UserAvatar>
 
-          <ChatInputContainer>
-            <ChatInputEntry />
-          </ChatInputContainer>
-        </ChatWidgetControlsBottomRow>
-      </ChatWidgetControls>
-    </ChatWidgetWrapper>
+            <ChatInputContainer>
+              <ChatInputEntry />
+            </ChatInputContainer>
+          </ChatWidgetControlsBottomRow>
+        </ChatWidgetControls>
+      </ChatWidgetWrapper>
+    </ChatContext.Provider>
   );
 }
 
