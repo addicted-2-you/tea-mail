@@ -7,9 +7,12 @@ import { useQuery } from '@apollo/client';
 // components
 import ChatItem from '~/components/ChatItem';
 import ChatMessagesList from '~/components/chat/ChatMessagesList';
+import ChatInputEntry from '~/components/ChatInputEntry';
+import { ChatContext } from '~/components/chat/ChatContext';
 
 // graphql
 import { GET_CHAT, GET_CHATS } from '~/graphql/client/queries/chats-queries';
+import useSendMessageMutation from '~/hooks/graphql-client/chats/useSendMessageMutation';
 
 function AdminChatView() {
   const [pickedChat, setPickedChat] = React.useState(null);
@@ -29,6 +32,8 @@ function AdminChatView() {
     variables: { id: pickedChat && pickedChat.id },
   });
 
+  const { sendMessageMutation } = useSendMessageMutation({ chatId: pickedChat && pickedChat.id });
+
   const onChatItemClick = React.useCallback(
     (chat) => {
       if (pickedChat && pickedChat.id === chat.id) {
@@ -40,36 +45,58 @@ function AdminChatView() {
     [pickedChat],
   );
 
+  const chatWidgetContextValue = React.useMemo(
+    () => ({
+      async sendMessage(messageText) {
+        await sendMessageMutation({
+          variables: {
+            chatId: pickedChat && pickedChat.id,
+            senderId: 0,
+            messageText,
+          },
+        });
+      },
+    }),
+    [sendMessageMutation, pickedChat],
+  );
+
   const { chats } = chatsData;
   const {
     chats: [pickedC],
   } = pickedChatData;
 
   return (
-    <AdminChatViewWrapper>
-      <AdminChatViewChatsPanel>
-        {!loadingChats && !loadingChatsError ? (
-          <ul>
-            {chats.map((chat) => (
-              <li key={chat.id}>
-                <ChatItem
-                  chat={chat}
-                  selected={pickedChat && pickedChat.id === chat.id}
-                  pickChat={onChatItemClick}
-                />
-              </li>
-            ))}
-          </ul>
-        ) : null}
-      </AdminChatViewChatsPanel>
+    <ChatContext.Provider value={chatWidgetContextValue}>
+      <AdminChatViewWrapper>
+        <AdminChatViewChatsPanel>
+          {!loadingChats && !loadingChatsError ? (
+            <ul>
+              {chats.map((chat) => (
+                <li key={chat.id}>
+                  <ChatItem
+                    chat={chat}
+                    selected={pickedChat && pickedChat.id === chat.id}
+                    pickChat={onChatItemClick}
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : null}
+        </AdminChatViewChatsPanel>
 
-      <AdminChatViewMessagingPanel>
-        {pickedChat && !loadingPickedChat && !loadingPickedChatError ? (
-          // 0 -- is admin's id (mock)
-          <ChatMessagesList messages={pickedC.messages} currentUserId={0} />
-        ) : null}
-      </AdminChatViewMessagingPanel>
-    </AdminChatViewWrapper>
+        <AdminChatViewMessagingPanel>
+          {pickedChat && !loadingPickedChat && !loadingPickedChatError ? (
+            // 0 -- is admin's id (mock)
+            <ChatMessagesList messages={pickedC.messages} currentUserId={0} />
+          ) : null}
+
+          {pickedChat && !loadingPickedChat && !loadingPickedChatError ? (
+            // 0 -- is admin's id (mock)
+            <ChatInputEntry />
+          ) : null}
+        </AdminChatViewMessagingPanel>
+      </AdminChatViewWrapper>
+    </ChatContext.Provider>
   );
 }
 

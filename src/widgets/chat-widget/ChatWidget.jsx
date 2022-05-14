@@ -2,18 +2,54 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import { useQuery } from '@apollo/client';
 
 // components
 import ChatInputEntry from '~/components/ChatInputEntry';
+import { ChatContext } from '~/components/chat/ChatContext';
+import ChatMessagesList from '~/components/chat/ChatMessagesList';
+
+// graphql
+import useSendMessageMutation from '~/hooks/graphql-client/chats/useSendMessageMutation';
+import { GET_CHAT } from '~/graphql/client/queries/chats-queries';
 
 // icons
 import ChatDownIcon from '~/assets/img/chat-down.svg';
 import ChatUpIcon from '~/assets/img/chat-up.svg';
 
+const chatId = 1;
+const senderId = -1;
 const username = 'akavalenka';
 
 function ChatWidget() {
   const [chatOpen, setChatOpen] = React.useState(false);
+
+  const { sendMessageMutation } = useSendMessageMutation({ chatId });
+
+  const {
+    data: chatData = { chats: [null] },
+    loading,
+    error,
+  } = useQuery(GET_CHAT, { variables: { id: 1 } });
+
+  const {
+    chats: [chatWithAdmin],
+  } = chatData;
+
+  const chatWidgetContextValue = React.useMemo(
+    () => ({
+      async sendMessage(messageText) {
+        await sendMessageMutation({
+          variables: {
+            chatId,
+            senderId,
+            messageText,
+          },
+        });
+      },
+    }),
+    [sendMessageMutation],
+  );
 
   const usernameFirstLetter = React.useMemo(() => username.charAt(0).toUpperCase(), []);
 
@@ -22,29 +58,35 @@ function ChatWidget() {
   };
 
   return (
-    <ChatWidgetWrapper>
-      <MessagesListContainer open={chatOpen} />
+    <ChatContext.Provider value={chatWidgetContextValue}>
+      <ChatWidgetWrapper>
+        <MessagesListContainer open={chatOpen}>
+          {chatWithAdmin && chatOpen ? (
+            <ChatMessagesList messages={chatWithAdmin.messages} currentUserId={-1} />
+          ) : null}
+        </MessagesListContainer>
 
-      <ChatWidgetControls>
-        <ChatWidgetControlsTopRow>
-          <ToggleChatButton type="button" onClick={onToggleChatButtonClick}>
-            {chatOpen ? (
-              <img src={ChatUpIcon} alt="chat-up-icon" />
-            ) : (
-              <img src={ChatDownIcon} alt="chat-down-icon" />
-            )}
-          </ToggleChatButton>
-        </ChatWidgetControlsTopRow>
+        <ChatWidgetControls>
+          <ChatWidgetControlsTopRow>
+            <ToggleChatButton type="button" onClick={onToggleChatButtonClick}>
+              {chatOpen ? (
+                <img src={ChatUpIcon} alt="chat-up-icon" />
+              ) : (
+                <img src={ChatDownIcon} alt="chat-down-icon" />
+              )}
+            </ToggleChatButton>
+          </ChatWidgetControlsTopRow>
 
-        <ChatWidgetControlsBottomRow>
-          <UserAvatar>{usernameFirstLetter}</UserAvatar>
+          <ChatWidgetControlsBottomRow>
+            <UserAvatar>{usernameFirstLetter}</UserAvatar>
 
-          <ChatInputContainer>
-            <ChatInputEntry />
-          </ChatInputContainer>
-        </ChatWidgetControlsBottomRow>
-      </ChatWidgetControls>
-    </ChatWidgetWrapper>
+            <ChatInputContainer>
+              <ChatInputEntry />
+            </ChatInputContainer>
+          </ChatWidgetControlsBottomRow>
+        </ChatWidgetControls>
+      </ChatWidgetWrapper>
+    </ChatContext.Provider>
   );
 }
 
@@ -58,6 +100,9 @@ const ChatWidgetWrapper = styled.div`
 
 const MessagesListContainer = styled.div`
   height: ${({ open }) => (open ? '500px' : '20px')};
+  overflow: hidden auto;
+  display: flex;
+  flex-direction: column-reverse;
   background-color: #2a1a4333;
   transition: height ease-in-out 0.25s;
   border-radius: 10px 10px 0 0;

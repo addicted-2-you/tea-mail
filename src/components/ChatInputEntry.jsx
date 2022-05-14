@@ -3,11 +3,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// compoments
+import { ChatContext } from './chat/ChatContext';
+
 function ChatInputEntry() {
   const [text, setText] = React.useState('');
 
+  const { sendMessage } = React.useContext(ChatContext);
+
   const onTextEntryChange = (e) => {
     setText(e.target.value);
+  };
+
+  const onTextEntryKeyDown = async (e) => {
+    if (e.key === 'Enter') {
+      try {
+        await sendMessage(text);
+        setText('');
+      } catch (err) {
+        console.error(err);
+      }
+    }
   };
 
   return (
@@ -18,7 +34,12 @@ function ChatInputEntry() {
         </TextEntrySizer>
       ) : null}
 
-      <TextEntry placeholder="Say Something..." value={text} onChange={onTextEntryChange} />
+      <TextEntry
+        placeholder="Say Something..."
+        value={text}
+        onChange={onTextEntryChange}
+        onKeyDown={onTextEntryKeyDown}
+      />
     </ChatInputEntryWrapper>
   );
 }
