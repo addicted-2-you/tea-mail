@@ -4,7 +4,7 @@ import { Arg, Int, Query, Resolver } from 'type-graphql';
 
 import { Chat } from '~/graphql/schema/entities/Chat';
 
-@Resolver();
+@Resolver()
 export class ChatResolver {
   @Query(() => [Chat])
   async chats(@Arg('id', () => Int, { nullable: true }) id?: number) {
