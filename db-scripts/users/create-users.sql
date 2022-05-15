@@ -1,7 +1,7 @@
 -- drop table if exists tea_mail.users;
 create table if not exists tea_mail.users (
   id int primary key auto_increment,
-  username varchar(255) not null,
+  username varchar(255) unique not null,
   password varchar(255) not null,
 
   createdat datetime default now(),
