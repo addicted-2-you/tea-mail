@@ -4,6 +4,7 @@ import React from 'react';
 import TeaCatalogView from './TeaCatalogView';
 import CartView from './CartView';
 import AdminChatView from './AdminChatView';
+import AuthView from './AuthView';
 
 export default [
   { id: '1', path: '/tea-catalog', component: <TeaCatalogView /> },
@@ -18,5 +19,11 @@ export default [
     id: '3',
     path: '/admin/chat',
     component: <AdminChatView />,
+  },
+
+  {
+    id: '4',
+    path: '/auth',
+    component: <AuthView />,
   },
 ];

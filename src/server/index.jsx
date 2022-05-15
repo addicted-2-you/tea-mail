@@ -42,6 +42,16 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+// app.use((req, resp, next) => {
+//   const auth = req.headers['authorization'];
+//   if (auth) {
+//     const [, token] = auth.split(' ');
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+//   }
+
+//   next();
+// });
+
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
 
 async function runApp() {
