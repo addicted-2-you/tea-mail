@@ -1,14 +1,3 @@
--- drop table if exists tea_mail.users;
--- create table tea_mail.users (
---   id int primary key auto_increment,
---   username varchar(255) not null,
---   password varchar(255) not null,
-
---   createdat datetime default now(),
---   updatedat datetime default null on update now(),
---   deletedat datetime default null
--- );
-
 drop table if exists tea_mail.chats;
 create table tea_mail.chats (
   id int primary key auto_increment,
