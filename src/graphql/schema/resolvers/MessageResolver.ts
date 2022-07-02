@@ -1,10 +1,9 @@
 /* eslint-disable class-methods-use-this */
 
-import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Int, Mutation, Query } from 'type-graphql';
 
 import { Message } from '~/graphql/schema/entities/Message';
 
-@Resolver()
 export class MessageResolver {
   @Query(() => [Message])
   async messages() {
