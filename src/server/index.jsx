@@ -42,6 +42,15 @@ const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+// app.use((req, resp, next) => {
+//   const auth = req.headers['authorization'];
+//   if (auth) {
+//     const [, token] = auth.split(' ');
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+//   }
+
+//   next();
+// });
 
 app.use('/public', express.static(path.resolve(__dirname, 'public')));
 
@@ -74,15 +83,27 @@ async function runApp() {
 
   app.use(
     '/graphql',
-    graphqlHTTP(async (req, res) => ({
-      graphiql: true,
+    graphqlHTTP(async (req, res) => {
+      const token = req.headers.authorization;
+      const context = {};
+      if (!token) {
+        context.user = null;
+      } else {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        console.log(decoded);
+        context.user = decoded;
+      }
 
-      schema: await buildSchema({
-        resolvers: [AuthResolver, TeaResolver, PortionResolver, ChatResolver, MessageResolver],
-      }),
+      return {
+        graphiql: true,
 
-      context: { req, res },
-    })),
+        schema: await buildSchema({
+          resolvers: [AuthResolver, TeaResolver, PortionResolver, ChatResolver, MessageResolver],
+        }),
+
+        context: { ...req, ...context },
+      };
+    }),
   );
 
   app.get('/*', renderClientApp);
