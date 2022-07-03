@@ -31,10 +31,7 @@ module.exports = {
 
       { test: /\.(sc|sa|c)ss$/, use: ['ignore-loader'] },
 
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: 'asset/resource',
-      },
+      { test: /\.(png|svg|jpg|jpeg|gif)$/i, type: 'asset/resource' },
     ],
   },
 
