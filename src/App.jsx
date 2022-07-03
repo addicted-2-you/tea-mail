@@ -1,12 +1,17 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+
 import { cart } from './graphql/client/reactive-vars';
+
+import { getAccessToken } from './access-token';
 
 import routes from './views/routes';
 
 import ChatWidget from './widgets/chat-widget/ChatWidget';
 
 function App() {
+  const navigate = useNavigate();
+
   // read cart from the localStorage
   React.useEffect(() => {
     const initCart = window.localStorage.getItem('cart')
@@ -15,6 +20,14 @@ function App() {
 
     cart(initCart);
   }, []);
+
+  // read access token from the localStorage
+  React.useEffect(() => {
+    const authToken = getAccessToken();
+    if (!authToken) {
+      navigate('/auth');
+    }
+  }, [navigate]);
 
   return (
     <div>

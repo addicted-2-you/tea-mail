@@ -4,6 +4,7 @@ import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import { createConnection } from 'typeorm';
+import jwt from 'jsonwebtoken';
 
 // graphql
 import { graphqlHTTP } from 'express-graphql';
@@ -25,8 +26,10 @@ import { Tea } from '~/graphql/schema/entities/Tea';
 import { Portion } from '~/graphql/schema/entities/Portion';
 import { Chat } from '~/graphql/schema/entities/Chat';
 import { Message } from '~/graphql/schema/entities/Message';
+import { User } from '~/graphql/schema/entities/User';
 
 // resolvers
+import { AuthResolver } from '~/graphql/schema/resolvers/AuthResolver';
 import { TeaResolver } from '~/graphql/schema/resolvers/TeaResolver';
 import { PortionResolver } from '~/graphql/schema/resolvers/PortionResolver';
 import { ChatResolver } from '~/graphql/schema/resolvers/ChatResolver';
@@ -63,19 +66,22 @@ async function runApp() {
     username: 'root',
     password: 'root',
     database: 'tea_mail',
-    entities: [Tea, Portion, Chat, Message],
+    entities: [Tea, Portion, Chat, Message, User],
     // logging: true,
     synchronize: false,
   });
 
   app.use(
     '/graphql',
-    graphqlHTTP({
+    graphqlHTTP(async (req, res) => ({
       graphiql: true,
+
       schema: await buildSchema({
-        resolvers: [TeaResolver, PortionResolver, ChatResolver, MessageResolver],
+        resolvers: [AuthResolver, TeaResolver, PortionResolver, ChatResolver, MessageResolver],
       }),
-    }),
+
+      context: { req, res },
+    })),
   );
 
   app.get('/*', renderClientApp);
