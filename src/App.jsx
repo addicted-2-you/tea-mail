@@ -47,9 +47,7 @@ function App() {
           <ul className="flex gap-x-2 justify-end">{renderNav(leftRoutes)}</ul>
         </nav>
 
-        <a className="text-blue-600 hover:underline" href="/">
-          Tea
-        </a>
+        <Link to="/">Tea</Link>
 
         <nav className="w-1/3 justify-start">
           <ul className="flex gap-x-2">{renderNav(rightRoutes)}</ul>
