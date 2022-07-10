@@ -7,7 +7,7 @@ import CartListItem from '~/components/cart-view/CartListItem';
 // hooks
 import useCreateOrderMutation from '~/hooks/graphql-client/orders/useCreateOrderMutation';
 
-import { cart } from '~/graphql/client/reactive-vars';
+import { cart, userProfile } from '~/graphql/client/reactive-vars';
 
 // icons
 import ClearCartIcon from '~/assets/img/ban-solid.svg';
@@ -15,6 +15,7 @@ import CircleCheckIcon from '~/assets/img/circle-check-solid.svg';
 
 function CartView() {
   const currentCart = useReactiveVar(cart);
+  const currentUserProfile = useReactiveVar(userProfile);
 
   const { createOrderMutation } = useCreateOrderMutation();
 
@@ -35,11 +36,13 @@ function CartView() {
       portionId: item.teaPortion.id,
     }));
 
-    await createOrderMutation({ variables: { userId: 1, orderData } });
+    if (currentUserProfile) {
+      await createOrderMutation({ variables: { userId: currentUserProfile.id, orderData } });
+    }
 
     // if success, clear the cart
     clearCart();
-  }, [clearCart, createOrderMutation, currentCart]);
+  }, [clearCart, createOrderMutation, currentCart, currentUserProfile]);
 
   const deleteFromCart = React.useCallback(
     (id) => {
