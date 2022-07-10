@@ -9,6 +9,7 @@ export const GET_TEA = gql`
       portions {
         id
         title
+        quantor
       }
     }
   }

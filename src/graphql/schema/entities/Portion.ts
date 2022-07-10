@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Field, Int, ObjectType } from 'type-graphql';
+import { Field, Float, Int, ObjectType } from 'type-graphql';
 
 @ObjectType()
 @Entity('tea_portions')
@@ -11,4 +11,8 @@ export class Portion extends BaseEntity {
   @Field(() => String)
   @Column('varchar')
   title: string;
+
+  @Field(() => Float)
+  @Column('float')
+  quantor: number;
 }

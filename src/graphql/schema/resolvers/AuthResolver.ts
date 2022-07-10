@@ -3,9 +3,10 @@
 
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { Arg, Ctx, Mutation, Resolver, ObjectType, Field } from 'type-graphql';
+import { Arg, Ctx, Mutation, Resolver, ObjectType, Field, Query } from 'type-graphql';
 
 import { User } from '~/graphql/schema/entities/User';
+import { UserProfile } from '~/graphql/schema/types/UserProfile';
 
 @ObjectType()
 class LoginResponse {
@@ -15,6 +16,21 @@ class LoginResponse {
 
 @Resolver()
 export class AuthResolver {
+  @Query(() => UserProfile, { nullable: true })
+  async userProfile(@Arg('accessToken') accessToken: string) {
+    const { id } = jwt.verify(accessToken, process.env.JWT_SECRET_KEY as string) as { id: number };
+    const user = await User.findOne({ where: { id } });
+    if (user) {
+      return {
+        id: user.id,
+        username: user.username,
+        accessToken,
+      };
+    }
+
+    return null;
+  }
+
   @Mutation(() => LoginResponse)
   async register(
     @Arg('username') username: string,
