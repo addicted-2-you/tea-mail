@@ -9,6 +9,9 @@ import { nop } from '../utils/utils';
 // mocks
 import { MILK_OOLONG_TEA } from '../../mocks/tea-mocks';
 
+// styles
+import '../index.scss';
+
 export default {
   title: 'Tea Card',
   component: TeaCard,
