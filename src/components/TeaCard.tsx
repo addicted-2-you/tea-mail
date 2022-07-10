@@ -28,6 +28,7 @@ function TeaCard(props: ITeaCardProps) {
 
   const onAddTeaToCartButtonClick = () =>
     addTeaToCart({
+      id: `tea-cart-item-${Date.now()}-${id}`,
       tea: { id, title, price, teaType: { id: -1, title: '' }, flavors: [] },
       teaPortion,
       count: 1,

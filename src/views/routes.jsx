@@ -3,7 +3,7 @@ import React from 'react';
 // views
 import MainView from './MainView';
 import TeaCatalogView from './TeaCatalogView';
-import CartView from './CartView';
+import CartView from './cart-view/CartView';
 import AdminChatView from './AdminChatView';
 import AuthView from './AuthView';
 

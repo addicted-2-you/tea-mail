@@ -1,22 +1,23 @@
 drop table if exists tea_mail.tea_portions;
 create table tea_mail.tea_portions (
   id int primary key auto_increment,
-  title varchar(255) not null
+  title varchar(255) not null,
+  quantor float not null
 );
 
-insert into tea_mail.tea_portions (id, title) values (1, "5 г.");
-insert into tea_mail.tea_portions (id, title) values (2, "10 г.");
-insert into tea_mail.tea_portions (id, title) values (3, "15 г.");
-insert into tea_mail.tea_portions (id, title) values (4, "25 г.");
-insert into tea_mail.tea_portions (id, title) values (5, "50 г.");
-insert into tea_mail.tea_portions (id, title) values (6, "100 г.");
-insert into tea_mail.tea_portions (id, title) values (7, "200 г.");
-insert into tea_mail.tea_portions (id, title) values (8, "1 шт.");
-insert into tea_mail.tea_portions (id, title) values (9, "2 шт.");
-insert into tea_mail.tea_portions (id, title) values (10, "3 шт.");
-insert into tea_mail.tea_portions (id, title) values (11, "4 шт.");
-insert into tea_mail.tea_portions (id, title) values (12, "5 шт.");
-insert into tea_mail.tea_portions (id, title) values (13, "6 шт.");
+insert into tea_mail.tea_portions (id, title, quantor) values (1, "5 г.", 0.5);
+insert into tea_mail.tea_portions (id, title, quantor) values (2, "10 г.", 1);
+insert into tea_mail.tea_portions (id, title, quantor) values (3, "15 г.", 1.5);
+insert into tea_mail.tea_portions (id, title, quantor) values (4, "25 г.", 2.5);
+insert into tea_mail.tea_portions (id, title, quantor) values (5, "50 г.", 5);
+insert into tea_mail.tea_portions (id, title, quantor) values (6, "100 г.", 10);
+insert into tea_mail.tea_portions (id, title, quantor) values (7, "200 г.", 20);
+insert into tea_mail.tea_portions (id, title, quantor) values (8, "1 шт.", 1);
+insert into tea_mail.tea_portions (id, title, quantor) values (9, "2 шт.", 2);
+insert into tea_mail.tea_portions (id, title, quantor) values (10, "3 шт.", 3);
+insert into tea_mail.tea_portions (id, title, quantor) values (11, "4 шт.", 4);
+insert into tea_mail.tea_portions (id, title, quantor) values (12, "5 шт.", 5);
+insert into tea_mail.tea_portions (id, title, quantor) values (13, "6 шт.", 6);
 
 ## 
 
