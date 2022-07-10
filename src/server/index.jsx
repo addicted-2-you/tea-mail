@@ -4,7 +4,6 @@ import path from 'path';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import { createConnection } from 'typeorm';
-import jwt from 'jsonwebtoken';
 
 // graphql
 import { graphqlHTTP } from 'express-graphql';
@@ -25,7 +24,9 @@ import { client } from '~/graphql/client/config';
 import { Tea } from '~/graphql/schema/entities/Tea';
 import { Portion } from '~/graphql/schema/entities/Portion';
 import { Chat } from '~/graphql/schema/entities/Chat';
+import { M2M_TeaOrders } from '~/graphql/schema/entities/M2M_TeaOrders';
 import { Message } from '~/graphql/schema/entities/Message';
+import { Order } from '~/graphql/schema/entities/Order';
 import { User } from '~/graphql/schema/entities/User';
 
 // resolvers
@@ -37,6 +38,7 @@ import { MessageResolver } from '~/graphql/schema/resolvers/MessageResolver';
 
 // utils
 import { readFile } from '~/utils/server-utils';
+import { OrderResolver } from '~/graphql/schema/resolvers/OrderResolver';
 
 const app = express();
 
@@ -66,7 +68,7 @@ async function runApp() {
     username: 'root',
     password: 'root',
     database: 'tea_mail',
-    entities: [Tea, Portion, Chat, Message, User],
+    entities: [Tea, Portion, Chat, M2M_TeaOrders, Message, Order, User],
     // logging: true,
     synchronize: false,
   });
@@ -77,7 +79,14 @@ async function runApp() {
       graphiql: true,
 
       schema: await buildSchema({
-        resolvers: [AuthResolver, TeaResolver, PortionResolver, ChatResolver, MessageResolver],
+        resolvers: [
+          AuthResolver,
+          TeaResolver,
+          PortionResolver,
+          ChatResolver,
+          MessageResolver,
+          OrderResolver,
+        ],
       }),
 
       context: { req, res },

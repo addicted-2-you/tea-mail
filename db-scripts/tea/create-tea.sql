@@ -19,7 +19,7 @@ insert into tea_mail.tea_portions (id, title, quantor) values (11, "4 шт.", 4)
 insert into tea_mail.tea_portions (id, title, quantor) values (12, "5 шт.", 5);
 insert into tea_mail.tea_portions (id, title, quantor) values (13, "6 шт.", 6);
 
-## 
+##
 
 drop table if exists tea_mail.tea_types;
 create table tea_mail.tea_types (
@@ -98,29 +98,49 @@ insert into tea_mail.m2m_tea_portions(teaId, portionId) values (1, 6);
 insert into tea_mail.m2m_tea_portions(teaId, portionId) values (1, 7);
 
 insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 1);
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 2); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 3); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 4); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 5); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 6); 
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 2);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 3);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 4);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 5);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (2, 6);
 
 insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 1);
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 2); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 3); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 4); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 5); 
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 2);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 3);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 4);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 5);
 insert into tea_mail.m2m_tea_portions(teaId, portionId) values (3, 6);
 
 insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 1);
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 2); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 3); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 4); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 5); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 6); 
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 2);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 3);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 4);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 5);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (4, 6);
 
 insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 1);
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 2); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 3); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 4); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 5); 
-insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 6); 
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 2);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 3);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 4);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 5);
+insert into tea_mail.m2m_tea_portions(teaId, portionId) values (5, 6);
+
+##
+
+drop table if exists tea_mail.orders;
+create table tea_mail.orders (
+  id int primary key auto_increment,
+  userId int default null,
+  userphone varchar(255) default null,
+  status enum('new', 'inprogress', 'done', 'cancelled') default 'new',
+  createdAt datetime default now(),
+  updatedAt datetime default null on update now()
+);
+
+drop table if exists tea_mail.m2m_tea_orders;
+create table tea_mail.m2m_tea_orders (
+  id int primary key auto_increment,
+  orderId int not null,
+  teaId int not null,
+  portionId int not null
+);

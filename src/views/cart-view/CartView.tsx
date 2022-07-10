@@ -4,6 +4,9 @@ import { useReactiveVar } from '@apollo/client';
 // components
 import CartListItem from '~/components/cart-view/CartListItem';
 
+// hooks
+import useCreateOrderMutation from '~/hooks/graphql-client/orders/useCreateOrderMutation';
+
 import { cart } from '~/graphql/client/reactive-vars';
 
 // icons
@@ -12,6 +15,8 @@ import CircleCheckIcon from '~/assets/img/circle-check-solid.svg';
 
 function CartView() {
   const currentCart = useReactiveVar(cart);
+
+  const { createOrderMutation } = useCreateOrderMutation();
 
   const fullPrice = React.useMemo(
     () => currentCart.reduce((acc, item) => acc + item.tea.price * item.teaPortion.quantor, 0),
@@ -23,11 +28,18 @@ function CartView() {
     window.localStorage.setItem('cart', '[]');
   }, []);
 
-  const confirmOrder = React.useCallback(() => {
+  const confirmOrder = React.useCallback(async () => {
     // make a request to the server to create the order
+    const orderData = currentCart.map((item) => ({
+      teaId: item.tea.id,
+      portionId: item.teaPortion.id,
+    }));
+
+    await createOrderMutation({ variables: { userId: 1, orderData } });
+
     // if success, clear the cart
-    // if fail, show an error message
-  }, []);
+    clearCart();
+  }, [clearCart, createOrderMutation, currentCart]);
 
   const deleteFromCart = React.useCallback(
     (id) => {
