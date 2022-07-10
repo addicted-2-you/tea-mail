@@ -1,5 +1,7 @@
 const path = require('path');
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
   stories: ['../src/**/*.stories.jsx'],
 
@@ -24,6 +26,14 @@ module.exports = {
     config.resolve.alias = {
       '~': path.resolve(__dirname, '../src/'),
     };
+
+    // postcss
+    config.module.rules.push({
+      test: /\.(sc|sa|c)ss$/,
+      use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+    });
+
+    config.plugins.push(new MiniCssExtractPlugin());
 
     return config;
   },

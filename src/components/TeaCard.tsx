@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react';
-import styled from 'styled-components';
 
 // types
 import { ITeaPortion } from '~/types/ITeaPortion';
@@ -37,13 +36,28 @@ function TeaCard(props: ITeaCardProps) {
   const onDeleteTeaButtonClick = () => deleteTea(id);
 
   return (
-    <TeaCardContainer>
-      <img width="32px" src={MugHotSolid} alt="mug hot" />
-      <TeaCardTitle className="m-auto">{title}</TeaCardTitle>
-      <TeaCardPrice>{price}</TeaCardPrice>
+    <div className="relative px-2 py-1 w-64 flex flex-col items-center border-2 rounded-md border-orange-900">
+      <div className="absolute top-3 w-full px-2 flex justify-start">
+        <button
+          className="h-7 w-7 text-sm text-white font-bold bg-black bg-opacity-25 rounded-full hover:bg-red-500"
+          type="button"
+          onClick={onDeleteTeaButtonClick}
+        >
+          D
+        </button>
+      </div>
 
-      <label htmlFor={`tea-${id}-portions-select`}>
+      <div className="h-36 flex justify-center items-center">
+        <img width="32px" src={MugHotSolid} alt="mug hot" />
+      </div>
+
+      <h4 className="font-bold">{title}</h4>
+
+      <h5 className="mt-4 text-xl text-yellow-700">{price} BYN</h5>
+
+      <label className="mt-4" htmlFor={`tea-${id}-portions-select`}>
         <select
+          className="border-2 border-gray-600 rounded-md"
           id={`tea-${id}-portions-select`}
           value={teaPortion?.id}
           onChange={(e) => onTeaPortionChange(+e.target.value)}
@@ -56,39 +70,16 @@ function TeaCard(props: ITeaCardProps) {
         </select>
       </label>
 
-      <AddTeaToCartButton type="button" onClick={onAddTeaToCartButtonClick} disabled={!teaPortion}>
-        Add To Cart
-      </AddTeaToCartButton>
-
-      <DeleteTeaButton type="button" onClick={onDeleteTeaButtonClick}>
-        Delete
-      </DeleteTeaButton>
-    </TeaCardContainer>
+      <button
+        className="mt-4 px-2 py-1 italic text-sm text-white bg-orange-700 rounded-sm hover:bg-orange-800"
+        type="button"
+        onClick={onAddTeaToCartButtonClick}
+        disabled={!teaPortion}
+      >
+        В корзину
+      </button>
+    </div>
   );
 }
-
-const TeaCardContainer = styled.div`
-  padding: 6px 2px;
-  height: 25rem;
-  width: 15rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0px 0px 10px 0px #000000cc;
-  border-radius: 5px;
-`;
-
-const TeaCardTitle = styled.h4`
-  font-size: 1rem;
-  font-weight: 600;
-`;
-
-const TeaCardPrice = styled.h5`
-  font-size: 0.85rem;
-`;
-
-const AddTeaToCartButton = styled.button``;
-
-const DeleteTeaButton = styled.button``;
 
 export default TeaCard;
