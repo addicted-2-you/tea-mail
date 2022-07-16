@@ -1,5 +1,9 @@
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, GraphQLISODateTime, Int, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+// models
+import { Tea } from './Tea';
+import { Portion } from './Portion';
 
 @ObjectType()
 @Entity('orders')
@@ -19,6 +23,38 @@ export class Order extends BaseEntity {
   @Field(() => String)
   @Column({ type: 'enum', enum: ['new', 'inprogress', 'done', 'cancelled'] })
   status: string;
+
+  @Field(() => [Tea])
+  @ManyToMany(() => Tea)
+  @JoinTable({
+    name: 'm2m_tea_orders',
+
+    joinColumn: {
+      name: 'orderId',
+    },
+
+    inverseJoinColumn: {
+      name: 'teaId',
+      referencedColumnName: 'id',
+    },
+  })
+  tea: Tea[];
+
+  @Field(() => [Portion])
+  @ManyToMany(() => Portion)
+  @JoinTable({
+    name: 'm2m_tea_orders',
+
+    joinColumn: {
+      name: 'orderId',
+    },
+
+    inverseJoinColumn: {
+      name: 'portionId',
+      referencedColumnName: 'id',
+    },
+  })
+  portions: Portion[];
 
   @Field(() => GraphQLISODateTime)
   @Column('date')

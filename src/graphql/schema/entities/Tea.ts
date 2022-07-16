@@ -26,10 +26,12 @@ export class Tea extends BaseEntity {
   @ManyToMany(() => Portion)
   @JoinTable({
     name: 'm2m_tea_portions',
+
     joinColumn: {
       name: 'teaId',
       referencedColumnName: 'id',
     },
+
     inverseJoinColumn: {
       name: 'portionId',
       referencedColumnName: 'id',

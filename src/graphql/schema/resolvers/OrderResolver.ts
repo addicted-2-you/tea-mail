@@ -10,8 +10,8 @@ import { OrderData } from '~/graphql/schema/types/OrderData';
 @Resolver()
 export class OrderResolver {
   @Query(() => [Order])
-  async orders() {
-    return Order.find();
+  async orders(@Arg('userId', () => Int) userId: number) {
+    return Order.find({ where: { userId }, relations: ['tea', 'portions'] });
   }
 
   @Mutation(() => [Order])
