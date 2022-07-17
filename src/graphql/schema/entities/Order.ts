@@ -14,7 +14,7 @@ export class Order extends BaseEntity {
 
   @Field(() => Int, { nullable: true })
   @Column({ type: 'int', nullable: true })
-  userId: int;
+  userId: number;
 
   @Field(() => String, { nullable: true })
   @Column({ type: 'varchar', nullable: true })
@@ -24,7 +24,7 @@ export class Order extends BaseEntity {
   @Column({ type: 'enum', enum: ['new', 'inprogress', 'done', 'cancelled'] })
   status: string;
 
-  @Field(() => [Tea])
+  // @Field(() => [Tea])
   @ManyToMany(() => Tea)
   @JoinTable({
     name: 'm2m_tea_orders',
@@ -40,7 +40,7 @@ export class Order extends BaseEntity {
   })
   tea: Tea[];
 
-  @Field(() => [Portion])
+  // @Field(() => [Portion])
   @ManyToMany(() => Portion)
   @JoinTable({
     name: 'm2m_tea_orders',
@@ -56,11 +56,11 @@ export class Order extends BaseEntity {
   })
   portions: Portion[];
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => String)
   @Column('date')
-  createdAt: Date;
+  createdAt: string;
 
-  @Field(() => GraphQLISODateTime)
+  @Field(() => String)
   @Column('date')
-  updatedAt: Date;
+  updatedAt: string;
 }
