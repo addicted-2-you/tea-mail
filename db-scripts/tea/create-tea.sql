@@ -63,10 +63,43 @@ create table tea_mail.tea (
 );
 
 insert into tea_mail.tea(id, title, price, teaType) values(1, "Молочный Улун", 10, 5);
-insert into tea_mail.tea(id, title, price, teaType) values(2, "Сливчоный Виноградный Улун", 25, 5);
+insert into tea_mail.tea(id, title, price, teaType) values(2, "Сливочный Виноградный Улун", 25, 5);
 insert into tea_mail.tea(id, title, price, teaType) values(3, "Древний Улун", 100, 5);
 insert into tea_mail.tea(id, title, price, teaType) values(4, "Заяц Гун Тин", 10, 2);
 insert into tea_mail.tea(id, title, price, teaType) values(5, "Гу Тин в кирпиче (из почечного сырья)", 10, 2);
+
+insert into tea_mail.tea(id, title, price, teaType) values(6, "Черный Пуэр тест-1", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(7, "Черный Пуэр тест-2", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(8, "Черный Пуэр тест-3", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(9, "Черный Пуэр тест-4", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(10, "Черный Пуэр тест-5", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(11, "Черный Пуэр тест-6", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(12, "Черный Пуэр тест-7", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(13, "Черный Пуэр тест-8", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(14, "Черный Пуэр тест-9", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(15, "Черный Пуэр тест-10", 10, 2);
+
+insert into tea_mail.tea(id, title, price, teaType) values(16, "Черный Пуэр тест-11", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(17, "Черный Пуэр тест-12", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(18, "Черный Пуэр тест-13", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(19, "Черный Пуэр тест-14", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(20, "Черный Пуэр тест-15", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(21, "Черный Пуэр тест-16", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(22, "Черный Пуэр тест-17", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(23, "Черный Пуэр тест-18", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(24, "Черный Пуэр тест-19", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(25, "Черный Пуэр тест-20", 10, 2);
+
+insert into tea_mail.tea(id, title, price, teaType) values(26, "Черный Пуэр тест-21", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(27, "Черный Пуэр тест-22", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(28, "Черный Пуэр тест-23", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(29, "Черный Пуэр тест-24", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(30, "Черный Пуэр тест-25", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(31, "Черный Пуэр тест-26", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(32, "Черный Пуэр тест-27", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(33, "Черный Пуэр тест-28", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(34, "Черный Пуэр тест-29", 10, 2);
+insert into tea_mail.tea(id, title, price, teaType) values(35, "Черный Пуэр тест-30", 10, 2);
 
 ##
 

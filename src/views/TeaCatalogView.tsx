@@ -21,11 +21,27 @@ import useDeleteTeaMutation from '~/hooks/tea/useDeleteTeaMutation';
 import { cartItemComparer } from '~/utils/cart-utils';
 
 function TeaCatalogView() {
-  const { data, loading, error } = useQuery(GET_TEA);
+  const [hasMoreTea, setHasMoreTea] = React.useState(true);
+
+  const { data, loading, error, fetchMore } = useQuery(GET_TEA, {
+    variables: {
+      offset: 0,
+    },
+  });
 
   const currentCart = useReactiveVar(cart);
 
   const { deleteTeaMutation } = useDeleteTeaMutation();
+
+  const onFetchMore = () => {
+    fetchMore({
+      variables: {
+        offset: data.tea.length,
+      },
+    }).then((result) => {
+      setHasMoreTea(result.data.tea.length === 8);
+    });
+  };
 
   const addTeaToCart = React.useCallback(
     (newCartItem: ICartItem) => {
@@ -83,6 +99,8 @@ function TeaCatalogView() {
           </li>
         ))}
       </TeaCatalogList>
+
+      {hasMoreTea ? <FetchMoreButton onClick={onFetchMore}>Fetch More Tea</FetchMoreButton> : null}
     </div>
   );
 }
@@ -93,6 +111,15 @@ const TeaCatalogList = styled.ul`
   flex-wrap: wrap;
   justify-content: space-between;
   list-style: none;
+`;
+
+const FetchMoreButton = styled.button`
+  padding: 2px 4px;
+  font-size: 16px;
+  background-color: gray;
+  border: 1px solid black;
+  border-radius: 1px;
+  cursor: pointer;
 `;
 
 export default TeaCatalogView;

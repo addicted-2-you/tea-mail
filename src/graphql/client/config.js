@@ -1,5 +1,7 @@
 import 'cross-fetch/polyfill';
+
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, Observable } from '@apollo/client';
+import { offsetLimitPagination } from '@apollo/client/utilities';
 
 import { getAccessToken } from '~/access-token';
 
@@ -36,7 +38,15 @@ const requestLink = new ApolloLink(
 export const client = new ApolloClient({
   uri: '/graphql',
 
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          tea: offsetLimitPagination(),
+        },
+      },
+    },
+  }),
 
   link: ApolloLink.from([
     requestLink,
