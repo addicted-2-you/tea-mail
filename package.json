@@ -14,7 +14,7 @@
     "start:prod:server": "node ./dist/main.bundle.js",
     "start": "npm run build:dev && npm-run-all --parallel watch:dev:* start:dev:server",
     "watch:dev:client": "webpack -w -c ./webpack.config.client.js --mode=development",
-    "test": "jest --coverage",
+    "test": "jest --findRelatedTests ./tests/*",
     "e2e": "playwright test",
     "watch:dev:server": "webpack -w -c ./webpack.config.server.js --mode=development",
     "storybook": "start-storybook -p 6006",

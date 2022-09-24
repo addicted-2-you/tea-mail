@@ -14,7 +14,7 @@ describe('TeaCard', () => {
   describe('render', () => {
     let renderResult = null;
 
-    beforeAll(() => {
+    beforeEach(() => {
       renderResult = render(
         teaArray.map((tea) => (
           <TeaCard
@@ -31,7 +31,15 @@ describe('TeaCard', () => {
       );
     });
 
-    it('displays all tea titles', () => {
+    it('should display an icon for each card', () => {
+      expect(renderResult.getAllByAltText('mug hot').length).toBe(teaArray.length);
+    });
+
+    it('should display an "Add to Cart"-button for each card', () => {
+      expect(renderResult.getAllByText('В корзину').length).toBe(teaArray.length);
+    });
+
+    it('should display all tea titles', () => {
       teaArray.forEach((tea) => {
         expect(renderResult.getByText(tea.title)).toBeInTheDocument();
       });
